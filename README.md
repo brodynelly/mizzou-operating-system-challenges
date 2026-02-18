@@ -1,5 +1,7 @@
 # Mizzou Operating System Challenges
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![CI](https://github.com/brodynelly/mizzou-operating-system-challenges/actions/workflows/ci.yml/badge.svg)](https://github.com/brodynelly/mizzou-operating-system-challenges/actions/workflows/ci.yml) ![C](https://img.shields.io/badge/C-C11-blue?logo=c)
+
 C implementations of core OS concepts from University of Missouri's operating systems course — multithreading, process scheduling, block storage, and a Unix-style filesystem.
 
 ## Tech Stack
