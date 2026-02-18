@@ -1,0 +1,3 @@
+# Tooling config (C project — linting via GCC -Wall -Wextra)
+[tool.ruff]
+# Not applicable
