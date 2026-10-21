@@ -15,6 +15,58 @@
 #define UNUSED(x) (void)(x)
 
 
+#define number_inodes 256
+#define inode_size 64
+#define number_fd 256
+#define fd_size 6	// any number as you see fit
+
+#define folder_number_entries 31
+
+// each inode represents a regular file or a directory file
+struct inode 
+{
+    uint32_t vacantFile;    // this parameter is only for directory. Used as a bitmap denoting availibility of entries in a directory file.
+    char owner[18];         // for alignment purpose only   
+
+    char fileType;          // 'r' denotes regular file, 'd' denotes directory file
+
+    size_t inodeNumber;			// for FS, the range should be 0-255
+    size_t fileSize; 			  // the unit is in byte	
+    size_t linkCount;
+
+    // to realize the 16-bit addressing, pointers are acutally block numbers, rather than 'real' pointers.
+    uint16_t directPointer[6];
+    uint16_t indirectPointer[1];
+    uint16_t doubleIndirectPointer;
+};
+
+
+struct fileDescriptor 
+{
+    uint8_t inodeNum;	// the inode # of the fd
+
+    // usage, locate_order and locate_offset together locate the exact byte at which the cursor is 
+    uint8_t usage; 		// inode pointer usage info. Only the lower 3 digits will be used. 1 for direct, 2 for indirect, 4 for dbindirect
+    uint16_t locate_order;		// serial number or index of the block within direct, indirect, or dbindirect range
+    uint16_t locate_offset;		// offset of the cursor within a block
+};
+
+
+struct directoryFile {
+    char filename[127];
+    uint8_t inodeNumber;
+};
+
+
+struct FS {
+    block_store_t * BlockStore_whole;
+    block_store_t * BlockStore_inode;
+    block_store_t * BlockStore_fd;
+};
+
+
+
+
 /// Formats (and mounts) an FS file for use
 /// \param fname The file to format
 /// \return Mounted FS object, NULL on error

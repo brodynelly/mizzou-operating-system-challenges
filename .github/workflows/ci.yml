@@ -13,11 +13,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y gcc
-      - name: Check every C translation unit
+      - name: Check active C translation units
         run: |
           set -euo pipefail
           mapfile -d '' sources < <(find . -type f -name '*.c' \
-            -not -path './.git/*' -not -path '*/build/*' -print0)
+            -not -path './.git/*' -not -path '*/build/*' \
+            -not -path '*/a5_fs2021_bsn3g9-master/src/FS_M1.c' \
+            -not -path '*/a5_fs2021_bsn3g9-master/src/FS_M2.c' -print0)
           if ((${#sources[@]} == 0)); then
             echo 'No C translation units found' >&2
             exit 1

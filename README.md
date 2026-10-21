@@ -30,7 +30,7 @@ When the assignment's GoogleTest dependency is available, run its generated test
 
 ## Verification
 
-GitHub Actions checks each tracked C translation unit with GCC in C11 syntax-only mode. A compiler error fails the job. This check does not link binaries, compile C++ test harnesses, or run the assignment GoogleTest suites.
+GitHub Actions checks active C translation units with GCC in C11 syntax-only mode. The A5 CMake project builds src/FS.c; its earlier FS_M1.c and FS_M2.c milestone implementations are not part of that target and are excluded from this gate. A compiler error in an active source file fails the job. This check does not link binaries, compile C++ test harnesses, or run the assignment GoogleTest suites.
 
 ## Project structure
 
