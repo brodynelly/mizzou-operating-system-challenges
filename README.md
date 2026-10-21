@@ -2,78 +2,48 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![CI](https://github.com/brodynelly/mizzou-operating-system-challenges/actions/workflows/ci.yml/badge.svg)](https://github.com/brodynelly/mizzou-operating-system-challenges/actions/workflows/ci.yml) ![C](https://img.shields.io/badge/C-C11-blue?logo=c)
 
-C implementations of core OS concepts from University of Missouri's operating systems course — multithreading, process scheduling, block storage, and a Unix-style filesystem.
-
-## Tech Stack
-
-- **Language:** C (C11), C++ (test harnesses)
-- **Build:** CMake
-- **Testing:** GoogleTest (gtest)
+C implementations of operating-systems coursework: C fundamentals, process scheduling, threading, block storage, and a Unix-style filesystem. The assignment directories retain their original course layouts.
 
 ## Assignments
 
 | Assignment | Topic | Directory |
-|---|---|---|
-| A2 | C refresher — arrays, strings, allocation, bit manipulation | `a2_c_refresher_bsn3g9-master/` |
+| --- | --- | --- |
+| A2 | C fundamentals: arrays, strings, allocation, and bit operations | `a2_c_refresher_bsn3g9-master/` |
 | A3 | Process scheduling simulator | `a3_process_scheduling.sp2025_bsn3g9-main/` |
-| A3.5 | Multithreading | `a3.5-threading_bsn3g9-main/` |
-| A4 | Block store implementation | `a4_block_store_bsn3g9-master/` |
-| A5 | Unix-style filesystem (inode-based) | `a5_fs2021_bsn3g9-master/` |
+| A3.5 | POSIX threading | `a3.5-threading_bsn3g9-main/` |
+| A4 | Block storage | `a4_block_store_bsn3g9-master/` |
+| A5 | Inode-based filesystem | `a5_fs2021_bsn3g9-master/` |
 
-## Getting Started
+## Build prerequisites
 
-**Prerequisites:**
-- GCC or Clang
-- CMake ≥ 3.14
-- GoogleTest (for running tests)
+The projects use CMake, GCC or Clang, and GoogleTest for C++ test harnesses. Required compiler versions and libraries vary by assignment. Several original CMake files refer to course-cluster include and library directories, so a local build may need environment-specific setup.
 
-```bash
-# Install deps (Arch / Ubuntu)
-sudo pacman -S cmake gtest   # Arch
-sudo apt install cmake libgtest-dev   # Ubuntu
-```
+For example, the A4 CMake project can be configured and built with:
 
-**Build an assignment:**
-
-```bash
+```sh
 cd a4_block_store_bsn3g9-master
-mkdir build && cd build
-cmake ..
-make
+cmake -S . -B build
+cmake --build build --target assignment4_test
 ```
 
-## Usage
+When the assignment's GoogleTest dependency is available, run its generated test executable from the build directory. Target and executable names differ across assignments; see each directory's `CMakeLists.txt` and [test notes](tests/README.md).
 
-Each assignment is self-contained. Build with CMake, then run the test binary:
+## Verification
 
-```bash
-# Example: block store
-cd a4_block_store_bsn3g9-master/build
-./tests
+GitHub Actions checks each tracked C translation unit with GCC in C11 syntax-only mode. A compiler error fails the job. This check does not link binaries, compile C++ test harnesses, or run the assignment GoogleTest suites.
 
-# Example: process scheduling
-cd a3_process_scheduling.sp2025_bsn3g9-main/build
-./tests
-```
+## Project structure
 
-## Project Structure
-
-```
-├── a2_c_refresher_bsn3g9-master/    # C fundamentals (arrays, strings, alloc, bits)
-│   ├── allocation/
-│   ├── arrays/
-│   ├── bits/
-│   ├── debug/
-│   ├── error_handling/
-│   ├── strings/
-│   ├── structures/
-│   └── system_programming/
-├── a3_process_scheduling.sp2025_bsn3g9-main/   # Scheduler sim
-├── a3.5-threading_bsn3g9-main/      # Multithreading (pthreads)
-├── a4_block_store_bsn3g9-master/    # Block device abstraction layer
-└── a5_fs2021_bsn3g9-master/         # inode-based Unix filesystem
+```text
+.
+|-- a2_c_refresher_bsn3g9-master/       # C fundamentals
+|-- a3_process_scheduling.sp2025_bsn3g9-main/ # Scheduler simulator
+|-- a3.5-threading_bsn3g9-main/         # POSIX threads
+|-- a4_block_store_bsn3g9-master/       # Block store
+|-- a5_fs2021_bsn3g9-master/            # Filesystem
+`-- tests/                              # Repository-level test notes
 ```
 
 ## License
 
-MIT
+MIT. See [LICENSE](LICENSE).

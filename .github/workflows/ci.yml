@@ -12,10 +12,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
-        run: sudo apt-get install -y gcc make
-      - name: Check source files compile
+        run: sudo apt-get update && sudo apt-get install -y gcc
+      - name: Check every C translation unit
         run: |
-          find . -name "*.c" -not -path "./.git/*" | while read f; do
-            gcc -Wall -Wextra -fsyntax-only "$f" 2>&1 || true
+          set -euo pipefail
+          mapfile -d '' sources < <(find . -type f -name '*.c' \
+            -not -path './.git/*' -not -path '*/build/*' -print0)
+          if ((${#sources[@]} == 0)); then
+            echo 'No C translation units found' >&2
+            exit 1
+          fi
+          for source in "${sources[@]}"; do
+            include_flags=()
+            directory="$(dirname "$source")"
+            while [[ "$directory" != '.' ]]; do
+              if [[ -d "$directory/include" ]]; then
+                include_flags+=("-I$directory/include")
+              fi
+              directory="$(dirname "$directory")"
+            done
+            gcc -std=c11 -Wall -Wextra -fsyntax-only "${include_flags[@]}" "$source"
           done
-          echo "Syntax check complete"
