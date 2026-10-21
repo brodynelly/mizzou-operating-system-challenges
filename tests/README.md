@@ -1,15 +1,14 @@
-# Tests
+# Test notes
 
-Each assignment subdirectory contains its own test suite using GoogleTest.
+The assignment directories include different GoogleTest harnesses and CMake targets. There is no repository-wide test executable named `tests`.
 
-Run tests for an individual assignment:
+For example, A4 defines the `assignment4_test` target:
 
-```bash
+```sh
 cd a4_block_store_bsn3g9-master
-mkdir -p build && cd build
-cmake ..
-make
-./tests
+cmake -S . -B build
+cmake --build build --target assignment4_test
+./build/assignment4_test
 ```
 
-See each assignment's CMakeLists.txt for build details.
+The assignment projects use different target names and some retain course-cluster include or library paths. Check the selected assignment's `CMakeLists.txt` before building. Repository CI currently performs C syntax checks only; it does not run these C++ suites.
